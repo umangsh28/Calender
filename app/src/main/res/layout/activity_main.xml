@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#A6A4A4"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -23,14 +24,15 @@
         android:layout_below="@+id/heading"
         android:id="@+id/year"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:hint="Select city"
+        android:layout_margin="30dp"
+        android:hint="Year"
+        android:autofillHints="Year"
         />
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:layout_width="wrap_content"
         android:id="@+id/month"
-        android:layout_margin="20dp"
+        android:layout_margin="30dp"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/heading"
         android:layout_height="wrap_content"
@@ -38,42 +40,41 @@
         />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/cal_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/black"
+        android:layout_below="@id/year"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:textSize="25dp"
-        android:id="@+id/cal_year"
         android:layout_marginStart="40dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="220dp"
-        android:layout_below="@id/year"
-        android:textColor="@color/white"
-        android:text="Year"
+        android:background="@color/black"
         android:gravity="center"
-        />
+        android:text="Year"
+        android:textColor="@color/white"
+        android:textSize="25dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/cal_months"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/black"
+        android:layout_below="@id/year"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:textSize="25dp"
-        android:id="@+id/cal_months"
         android:layout_marginStart="220dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="30dp"
-        android:layout_below="@id/year"
-        android:textColor="@color/white"
-        android:text="month"
+        android:background="@color/black"
         android:gravity="center"
-        />
+        android:text="month"
+        android:textColor="@color/white"
+        android:textSize="25dp" />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/cal_months"
+        android:background="@color/black"
         android:layout_margin="30dp"
         android:id="@+id/recyler_cal"
         />
