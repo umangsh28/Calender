@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,13 +12,17 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.core.view.size
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.internal.notifyAll
 import ug.sharma.calender.calender.cal_recycler.Cal_Adapter
 import ug.sharma.calender.calender.interfacee.OnDateSelect
 import ug.sharma.calender.post_task.SecondActivity
 
-class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,OnDateSelect {
+
+class MainActivity : AppCompatActivity(), OnDateSelect {
 
     private var calAdapter: Cal_Adapter? = null
     private var list = mutableListOf<Int>()
@@ -34,14 +39,18 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,OnD
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         preferences = getSharedPreferences("umang", Context.MODE_PRIVATE)
-        setrecyler()
+
+
         year_spinner()
         month_spinner()
+
+        setrecyler()
 
 
     }
 
-    private fun year_spinner() {
+
+    private fun year_spinner() {// for year
         for (i in 2021 downTo 1990) {
             year_list.add(i)
         }
@@ -49,13 +58,28 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,OnD
         Yspinner.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
         yspin = findViewById<Spinner>(R.id.year)
         yspin.adapter = Yspinner
-        yspin.onItemSelectedListener = this
+        yspin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                YEAR = yspin.getItemAtPosition(position).toString()
+                cal_year.text = YEAR
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+        }
 
 
     }
 
 
-    private fun month_spinner() {
+    private fun month_spinner() {//for month
 
         month_list = arrayListOf(
             "January",
@@ -76,14 +100,36 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,OnD
         Mspinner.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
         mspin = findViewById<Spinner>(R.id.month)
         mspin.adapter = Mspinner
-        mspin.onItemSelectedListener = this
+
+
+        mspin.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                MONTH = mspin.getItemAtPosition(position).toString()
+                cal_months.text = MONTH
+
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
     }
 
-    fun insert_data() {
+
+    fun insert_data() { //insert dates to recycler View
 
         for (i in 1..30) {
             list.addAll(listOf(i))
+
         }
+
 
     }
 
@@ -92,50 +138,25 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener,OnD
     private fun setrecyler() {
         insert_data()
         if (list != null) {
-            calAdapter = list?.let { Cal_Adapter(it,this) }!!
+            calAdapter = list.let { Cal_Adapter(it, this) }
         } else {
             Log.d("umang", "Empty list")
         }
         recyler_cal.adapter = calAdapter
         recyler_cal.layoutManager = GridLayoutManager(this, 6)
+
+
         calAdapter?.notifyDataSetChanged()
     }
 
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
-
-        YEAR = yspin.getItemAtPosition(position).toString()
-        MONTH = mspin.getItemAtPosition(position).toString()
-
-
-        val editor = preferences.edit()
-        editor.putString("Year", YEAR)
-        editor.putString("Month", MONTH)
-        editor.apply()
-
-        cal_year.text = preferences.getString("Year", "try")
-        cal_months.text = preferences.getString("Month", "try")
-
-    }
-
-
-
-
-
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-    }
-
-    override fun OnItemDate(pos: Int) {
-        val i=Intent(this, SecondActivity::class.java)
-        i.putExtra("year",YEAR)
-        i.putExtra("month",MONTH)
+    override fun OnItemDate(pos: Int) {//using interface to transfer data on click of any date
+        val i = Intent(this, SecondActivity::class.java)
+        i.putExtra("year", YEAR)
+        i.putExtra("month", MONTH)
         i.putExtra("date", list[pos])
         startActivity(i)
     }
-
-
 
 
 }
