@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Calender">
         <activity
-            android:name=".post_task.SecondActivity"
+            android:name=".post_fetch_delete_task.SecondActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

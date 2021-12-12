@@ -1,4 +1,4 @@
-package ug.sharma.calender.post_task
+package ug.sharma.calender.post_fetch_delete_task
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
@@ -8,14 +8,13 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_second.*
-import kotlinx.android.synthetic.main.item_design2.*
 import ug.sharma.calender.R
-import ug.sharma.calender.post_task.main_viewmodel.MainViewModel
-import ug.sharma.calender.post_task.model.Get_Task_Model
-import ug.sharma.calender.post_task.model.Task
-import ug.sharma.calender.post_task.onitem_click.OnItemDelete
-import ug.sharma.calender.post_task.recycler.TaskAdapter
-import ug.sharma.calender.post_task.ui_model.Get_MainUIModel
+import ug.sharma.calender.post_fetch_delete_task.main_viewmodel.MainViewModel
+import ug.sharma.calender.post_fetch_delete_task.model.Get_Task_Model
+import ug.sharma.calender.post_fetch_delete_task.model.Task
+import ug.sharma.calender.post_fetch_delete_task.onitem_click.OnItemDelete
+import ug.sharma.calender.post_fetch_delete_task.recycler.TaskAdapter
+import ug.sharma.calender.post_fetch_delete_task.ui_model.Get_MainUIModel
 
 class SecondActivity : AppCompatActivity(),OnItemDelete{
 
@@ -28,6 +27,9 @@ class SecondActivity : AppCompatActivity(),OnItemDelete{
     private var list:Get_Task_Model?=null
 
 
+
+    // this is for posting task to server &  then fetching  & deleting it from server
+    // basic structure -> api_client->network->repo(instance of api_client)->view model & ui_model(sealed class)->second activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +86,7 @@ class SecondActivity : AppCompatActivity(),OnItemDelete{
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setrecycler() {
+        //setting recycler for  user task
         taskAdapter= TaskAdapter(list!!,this)
         recycler_response.adapter=taskAdapter
         recycler_response.layoutManager=LinearLayoutManager(this)

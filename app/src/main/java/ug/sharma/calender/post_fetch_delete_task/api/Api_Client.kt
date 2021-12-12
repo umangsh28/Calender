@@ -1,9 +1,9 @@
-package ug.sharma.calender.post_task.api
+package ug.sharma.calender.post_fetch_delete_task.api
 
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*
-import ug.sharma.calender.post_task.model.Get_Task_Model
-import ug.sharma.calender.post_task.model.TaskModel
+import ug.sharma.calender.post_fetch_delete_task.model.Get_Task_Model
+import ug.sharma.calender.post_fetch_delete_task.model.TaskModel
 
 interface Api_Client {
 

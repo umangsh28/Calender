@@ -1,4 +1,4 @@
-package ug.sharma.calender.post_task.main_viewmodel
+package ug.sharma.calender.post_fetch_delete_task.main_viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,10 +8,10 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import ug.sharma.calender.post_task.model.Get_Task_Model
-import ug.sharma.calender.post_task.model.TaskModel
-import ug.sharma.calender.post_task.repo.Main_Repositary
-import ug.sharma.calender.post_task.ui_model.Get_MainUIModel
+import ug.sharma.calender.post_fetch_delete_task.model.Get_Task_Model
+import ug.sharma.calender.post_fetch_delete_task.model.TaskModel
+import ug.sharma.calender.post_fetch_delete_task.repo.Main_Repositary
+import ug.sharma.calender.post_fetch_delete_task.ui_model.Get_MainUIModel
 
 class MainViewModel:ViewModel() {
 
@@ -26,7 +26,7 @@ class MainViewModel:ViewModel() {
      var liveData:LiveData<Get_MainUIModel> = mutableLiveData
 
 
-    fun getdatabyVmodel(user:String,task:String){
+    fun getdatabyVmodel(user:String,task:String){ // post request
 
         repo.getdatabyRepo(user,task).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<TaskModel>{
@@ -49,7 +49,7 @@ class MainViewModel:ViewModel() {
     }
 
 
-    fun getdatabyVmodel1(user:Int){
+    fun getdatabyVmodel1(user:Int){ // fetch data request
 
         repo.getdatabyRepo1(user).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<Get_Task_Model>{
@@ -72,7 +72,7 @@ class MainViewModel:ViewModel() {
             })
     }
 
-    fun deletedatabyVmodel1(user:Int,task:Int){
+    fun deletedatabyVmodel1(user:Int,task:Int){ // delete data request
 
         repo.deletedatabyRepo1(1011,task).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe(object : Observer<Get_Task_Model>{

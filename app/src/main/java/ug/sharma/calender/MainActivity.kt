@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,14 +11,11 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.core.view.size
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.internal.notifyAll
 import ug.sharma.calender.calender.cal_recycler.Cal_Adapter
 import ug.sharma.calender.calender.interfacee.OnDateSelect
-import ug.sharma.calender.post_task.SecondActivity
+import ug.sharma.calender.post_fetch_delete_task.SecondActivity
 
 
 class MainActivity : AppCompatActivity(), OnDateSelect {
@@ -35,6 +31,8 @@ class MainActivity : AppCompatActivity(), OnDateSelect {
     lateinit var preferences: SharedPreferences
 
 
+
+    // this is first activity for showing calender & assigning listener on date
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,7 +48,7 @@ class MainActivity : AppCompatActivity(), OnDateSelect {
     }
 
 
-    private fun year_spinner() {// for year
+    private fun year_spinner() {//  assigning year from spinner for year
         for (i in 2021 downTo 1990) {
             year_list.add(i)
         }
@@ -79,7 +77,7 @@ class MainActivity : AppCompatActivity(), OnDateSelect {
     }
 
 
-    private fun month_spinner() {//for month
+    private fun month_spinner() {// assiging month from spinner for month
 
         month_list = arrayListOf(
             "January",
@@ -124,18 +122,15 @@ class MainActivity : AppCompatActivity(), OnDateSelect {
 
 
     fun insert_data() { //insert dates to recycler View
-
         for (i in 1..30) {
             list.addAll(listOf(i))
 
         }
-
-
     }
 
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun setrecyler() {
+    private fun setrecyler() { // agrid layout to show dates in an appropriate way
         insert_data()
         if (list != null) {
             calAdapter = list.let { Cal_Adapter(it, this) }
@@ -150,7 +145,7 @@ class MainActivity : AppCompatActivity(), OnDateSelect {
     }
 
 
-    override fun OnItemDate(pos: Int) {//using interface to transfer data on click of any date
+    override fun OnItemDate(pos: Int) {//using interface to transfer data on click of any date  ,now second activity will open
         val i = Intent(this, SecondActivity::class.java)
         i.putExtra("year", YEAR)
         i.putExtra("month", MONTH)
